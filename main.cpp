@@ -47,20 +47,32 @@ string unpack(string original_str)
 {
     string output_str = "";
     char previous_character = original_str[0];
+    bool number_found = false;
 
     for (int i = 1; i < original_str.length(); i++)
     {
+        if (number_found)
+        {
+            number_found = false;
+            previous_character = original_str[i];
+            continue;
+        }
         if (isdigit(original_str[i]))
         {
             for (int j = 0; j = isdigit(original_str[i]); j++)
             {
                 output_str += previous_character;
+                number_found = true;
             }
         }
         else
         {
+            output_str += previous_character;
+            previous_character = original_str[i];
         }
     }
+    output_str += previous_character;
+    return output_str;
 }
 
 int main()
