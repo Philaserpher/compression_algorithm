@@ -43,6 +43,26 @@ string basic_compression(string original_str)
     return output_str;
 }
 
+string unpack(string original_str)
+{
+    string output_str = "";
+    char previous_character = original_str[0];
+
+    for (int i = 1; i < original_str.length(); i++)
+    {
+        if (isdigit(original_str[i]))
+        {
+            for (int j = 0; j = isdigit(original_str[i]); j++)
+            {
+                output_str += previous_character;
+            }
+        }
+        else
+        {
+        }
+    }
+}
+
 int main()
 {
     string my_str = "";
