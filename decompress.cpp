@@ -5,43 +5,6 @@
 
 using namespace std;
 
-string basic_compression(string original_str)
-{
-    string output_str = "";
-    int repeat_counter = 1;
-    char current_character = original_str[0];
-
-    for (int i = 1; i < original_str.length(); i++)
-    {
-        if (original_str[i] == current_character)
-        {
-            repeat_counter++;
-        }
-        else
-        {
-            if (repeat_counter == 1)
-            {
-                output_str += current_character;
-            }
-            else
-            {
-                output_str += current_character + to_string(repeat_counter);
-                repeat_counter = 1;
-            }
-            current_character = original_str[i];
-        }
-    }
-    if (repeat_counter == 1)
-    {
-        output_str += current_character;
-    }
-    else
-    {
-        output_str += current_character + to_string(repeat_counter);
-    }
-    return output_str;
-}
-
 string decompress(string original_str)
 {
     string output_str = "";
@@ -109,10 +72,7 @@ void write_file(string file_name, string write_text)
 
 int main()
 {
-    string my_str = read_file("original_text.txt");
-    string my_str_comp = basic_compression(my_str);
-    write_file("compressed_text.txt", my_str_comp);
-    string my_str_uncomp = decompress(my_str_comp);
-    write_file("uncompressed_text.txt", my_str_uncomp);
-    return 0;
+    string my_str = read_file("compressed_text.txt");
+    string my_str_comp = decompress(my_str);
+    write_file("uncompressed_text.txt", my_str_comp);
 }
