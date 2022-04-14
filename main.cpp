@@ -43,12 +43,12 @@ string basic_compression(string original_str)
     return output_str;
 }
 
-string unpack(string original_str)
+string decompress(string original_str)
 {
     string output_str = "";
     char previous_character = original_str[0];
     bool number_found = false;
-
+    char last_letter = original_str[0];
     for (int i = 1; i < original_str.length(); i++)
     {
         if (number_found)
@@ -59,7 +59,8 @@ string unpack(string original_str)
         }
         if (isdigit(original_str[i]))
         {
-            for (int j = 0; j = isdigit(original_str[i]); j++)
+            int number_of_repeats = original_str[i] - '0';
+            for (int j = 0; j <= number_of_repeats - 1; j++)
             {
                 output_str += previous_character;
                 number_found = true;
@@ -69,17 +70,29 @@ string unpack(string original_str)
         {
             output_str += previous_character;
             previous_character = original_str[i];
+            last_letter = original_str[i];
         }
     }
-    output_str += previous_character;
+    if (isdigit(previous_character))
+    {
+        int number_of_repeats = previous_character - '0';
+        for (int j = 0; j <= number_of_repeats - 1; j++)
+        {
+            output_str += last_letter;
+        }
+    }
+    else
+    {
+        output_str += previous_character;
+    }
     return output_str;
 }
 
-int main()
+string read_file(string file_name)
 {
     string my_str = "";
     ifstream read_file;
-    read_file.open("text.txt");
+    read_file.open(file_name);
     if (read_file.is_open())
     {
         stringstream strStream;
@@ -87,7 +100,25 @@ int main()
         my_str += strStream.str();
         read_file.close();
     }
+    return my_str;
+}
+
+void write_file(string file_name, string write_text)
+{
+    ofstream write_file;
+    write_file.open(file_name);
+    if (write_file.is_open())
+    {
+        write_file << write_text;
+        write_file.close();
+    }
+}
+
+int main()
+{
+    string my_str = read_file("plaintext.txt");
     string my_str_comp = basic_compression(my_str);
-    cout << my_str_comp;
+    string my_str_uncomp = decompress(my_str_comp);
+    write_file("decoded.txt", my_str_uncomp);
     return 0;
 }
